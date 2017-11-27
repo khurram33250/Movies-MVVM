@@ -1,5 +1,6 @@
 package com.example.hasham.movies_mvvm.data.remote
 
+import android.arch.lifecycle.LiveData
 import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -18,7 +19,7 @@ object Repository {
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_DISCOVER)
-        fun getMovies(@QueryMap params: Map<String, String>): Call<ApiResponse>
+        fun getMovies(@QueryMap params: Map<String, String>): LiveData<Call<ApiResponse>>
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_RECOMMENDATION)

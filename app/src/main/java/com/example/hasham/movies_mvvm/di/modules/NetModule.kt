@@ -38,6 +38,7 @@ constructor(private val mBaseUrl: String) {
     internal fun providesApiEndpoints(retrofit: Retrofit): Repository.API =
             retrofit.create<Repository.API>(Repository.API::class.java)
 
+
     @Provides
     @Singleton
     internal fun provideOkHttpCache(application: Application): Cache {
