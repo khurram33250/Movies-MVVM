@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Movies MVVM</string>
+    <string name="loadingText">Fetching results…</string>
+    <string name="cannotConnect">Cannot connect to Internet. Make sure you have an active Internet Connection.</string>
+    <string name="moviePoster">Movie Poster</string>
+    <string name="filter">FILTER</string>
+    <string name="filterPrompt">Release year</string>
+    <string name="minYear">1970</string>
+    <string name="maxYear">2017</string>
+    <string name="to">To</string>
+    <string name="title_activity_detail">Movie Detail</string>
+    <string name="imdb">IMDB</string>
+    <string name="related">RELATED MOVIES:</string>
+</resources>
