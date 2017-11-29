@@ -2,9 +2,8 @@ package com.example.hasham.movies_mvvm.data.remote
 
 import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
+import retrofit2.http.*
+import java.util.HashMap
 
 /**
  * Developed by hasham on 11/22/17.
@@ -20,10 +19,7 @@ object API {
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_DISCOVER)
-        fun getMovies(@Path("page") page: String, @Path("include_video") includeVideo: String,
-                      @Path("include_adult") includeAdult: String, @Path("sort_by") sortBy: String, @Path("language")
-                      language: String, @Path("primary_release_date.lte") startReleaseDate: String, @Path("primary_release_date.gte")
-                      endReleaseDate: String): Call<ApiResponse>
+        fun getMovies(@Query("page") page: String): Call<ApiResponse>
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_RECOMMENDATION)
@@ -34,4 +30,18 @@ object API {
         fun getVideos(@Path("movie_id") movieId: String): Call<ApiResponse>
 
     }
+
+//    fun getParams(page: Int, maxDate: String, minDate: String): Map<String, String> {
+//
+//        val params = HashMap<String, String>()
+//        params.put("page", page.toString())
+////        params.put("include_video", "false")
+////        params.put("include_adult", "false")
+////        params.put("sort_by", "popularity.desc")
+////        params.put("language", "en-US")
+////        params.put("primary_release_date.lte", maxDate)
+////        params.put("primary_release_date.gte", minDate)
+//
+//        return params
+//    }
 }

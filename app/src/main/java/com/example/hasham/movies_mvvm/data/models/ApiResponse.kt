@@ -14,7 +14,7 @@ data class ApiResponse(@SerializedName("page")
                        @SerializedName("total_pages")
                        val totalPages: Int? = null,
                        @SerializedName("results")
-                       val results: List<Movie>? = null)
+                       val results: List<Movie>)
 
 @Entity
 data class Movie(@PrimaryKey(autoGenerate = true)
