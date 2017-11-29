@@ -11,7 +11,6 @@ import android.view.View
 import com.example.hasham.movies_mvvm.ApplicationMain
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
-import com.example.hasham.movies_mvvm.data.remote.Repository
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
 import retrofit2.Retrofit
 import javax.inject.Inject

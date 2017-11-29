@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.example.hasham.movies_mvvm.BuildConfig
-import com.example.hasham.movies_mvvm.data.remote.Repository
+import com.example.hasham.movies_mvvm.data.remote.API
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -35,8 +35,8 @@ constructor(private val mBaseUrl: String) {
 
     @Provides
     @Singleton
-    internal fun providesApiEndpoints(retrofit: Retrofit): Repository.API =
-            retrofit.create<Repository.API>(Repository.API::class.java)
+    internal fun providesApiEndpoints(retrofit: Retrofit): API.Endpoints =
+            retrofit.create<API.Endpoints>(API.Endpoints::class.java)
 
 
     @Provides
