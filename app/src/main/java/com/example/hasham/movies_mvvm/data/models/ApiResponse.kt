@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class ApiResponse(@SerializedName("page")
-                       val page: Int? = null,
+                       val page: Int,
                        @SerializedName("total_results")
                        val totalResults: Int? = null,
                        @SerializedName("total_pages")

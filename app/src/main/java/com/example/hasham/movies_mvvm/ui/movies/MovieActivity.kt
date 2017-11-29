@@ -49,12 +49,20 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
         })
         filterSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
+        var currentPage = 1
+
         viewModel = ViewModelProviderFactory(MovieViewModel(application, this)).create(MovieViewModel::class.java)
 
         viewModel.getMoviesObservable().observe(this, Observer<ApiResponse> { resp ->
 
             Log.e("movies", resp?.results?.size.toString() + "   .")
 
+//            viewModel.requestNextPage(currentPage++)
+
         })
+
+        viewModel.requestNextPage(currentPage)
+
+
     }
 }
