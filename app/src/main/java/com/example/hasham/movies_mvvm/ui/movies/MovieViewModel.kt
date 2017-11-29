@@ -24,5 +24,4 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
         repo = MovieRepository(apiService)
     }
 
-
 }

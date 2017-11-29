@@ -48,7 +48,5 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
 
         viewModel = ViewModelProviderFactory(MovieViewModel(application, this)).create(MovieViewModel::class.java)
 
-        viewModel.getMovies()
-
     }
 }
