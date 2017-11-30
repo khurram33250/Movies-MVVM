@@ -4,10 +4,7 @@ import android.arch.lifecycle.LiveData
 import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.remote.API
 import retrofit2.Call
-import java.time.Year
-import javax.inject.Singleton
 import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -38,13 +35,9 @@ class MovieRepository(private var movieService: API.Endpoints) {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
 
                 data.value = response.body()
-
             }
         })
 
         return data
-
     }
-
-
 }
