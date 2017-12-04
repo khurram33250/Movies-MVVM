@@ -6,6 +6,8 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
@@ -92,6 +94,23 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
 
     override fun onItemClick(position: Int, item: Movie) {
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_favorite -> {
+
+
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+
+        }
     }
 
     override fun onStart() {

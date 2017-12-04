@@ -4,6 +4,7 @@
     <string name="cannotConnect">Cannot connect to Internet. Make sure you have an active Internet Connection.</string>
     <string name="moviePoster">Movie Poster</string>
     <string name="filter">FILTER</string>
+    <string name="favorites">Favorites</string>
     <string name="filterPrompt">Release year</string>
     <string name="minYear">1970</string>
     <string name="maxYear">2017</string>
