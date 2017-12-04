@@ -19,7 +19,7 @@ object API {
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_DISCOVER)
-        fun getMovies(@Query("page") page: String): Call<ApiResponse>
+        fun getMovies(@Query("page") page: String, @Query("sort_by")sortBy:String): Call<ApiResponse>
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_RECOMMENDATION)
@@ -30,18 +30,4 @@ object API {
         fun getVideos(@Path("movie_id") movieId: String): Call<ApiResponse>
 
     }
-
-//    fun getParams(page: Int, maxDate: String, minDate: String): Map<String, String> {
-//
-//        val params = HashMap<String, String>()
-//        params.put("page", page.toString())
-////        params.put("include_video", "false")
-////        params.put("include_adult", "false")
-////        params.put("sort_by", "popularity.desc")
-////        params.put("language", "en-US")
-////        params.put("primary_release_date.lte", maxDate)
-////        params.put("primary_release_date.gte", minDate)
-//
-//        return params
-//    }
 }
