@@ -23,10 +23,7 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
 
     private var apiResponseObservable: LiveData<ApiResponse>
 
-
         var page = MutableLiveData<Int>()
-
-
 
     init {
 
@@ -43,5 +40,12 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
     fun requestMovies(nextPage: Int) {
 
         page.value = nextPage
+    }
+
+    fun isLastPage(page: Int): Boolean {
+        if (page == 100) {
+            return true
+        }
+        return false
     }
 }

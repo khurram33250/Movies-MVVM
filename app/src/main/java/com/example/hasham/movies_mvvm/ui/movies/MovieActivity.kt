@@ -7,22 +7,20 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
+import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
 import com.example.hasham.movies_mvvm.data.models.ApiResponse
-import com.example.hasham.movies_mvvm.data.remote.API
-import com.example.hasham.movies_mvvm.data.repository.MovieRepository
+import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
-import com.example.hasham.movies_mvvm.util.RecyclerCustomAdapter
-import javax.inject.Inject
+import com.example.hasham.movies_mvvm.util.RecyclerBindingAdapter
 
 class MovieActivity : AppCompatActivity(), MovieNavigator {
 
     private lateinit var viewModel: MovieViewModel
     private lateinit var binding: ActivityMovieBinding
-    private lateinit var adapter: RecyclerCustomAdapter
+    private lateinit var adapter: RecyclerBindingAdapter<Movie>
     private var currentPage = 1
     private var pastVisibleItems: Int = 0
     private var visibleItemCount: Int = 0
@@ -34,7 +32,8 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie)
         viewModel = ViewModelProviderFactory(MovieViewModel(application, this)).create(MovieViewModel::class.java)
-        adapter = RecyclerCustomAdapter()
+        adapter = RecyclerBindingAdapter<Movie>(R.layout.list_item_movie, BR.movie)
+
 
         val layoutManager = GridLayoutManager(this, resources.getInteger(R.integer.columns))
 
@@ -67,7 +66,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
                     totalItemCount = layoutManager.itemCount
                     pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
-                    if (!requestLoading && !is_last_page) {
+                    if (!requestLoading && !viewModel.isLastPage(currentPage)) {
                         if (visibleItemCount + pastVisibleItems >= totalItemCount) {
                             requestLoading = true
 
@@ -82,7 +81,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
         viewModel.getMoviesObservable().observe(this, Observer<ApiResponse> { resp ->
 
             requestLoading = false
-            adapter.addMovies(resp?.results)
+            adapter.addItems(resp?.results as ArrayList<Movie>)
 
         })
 

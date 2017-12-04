@@ -34,7 +34,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/moviePoster"
                 android:scaleType="centerInside"
-                app:imageUrl='@{"https://image.tmdb.org/t/p/w500/" + movie.posterPath}'
+                app:imageUrl='@{movie.posterPath}'
                 app:layout_constraintBottom_toTopOf="@+id/textView_title"
                 app:layout_constraintDimensionRatio="w,2:3"
                 app:layout_constraintHorizontal_bias="0.0"

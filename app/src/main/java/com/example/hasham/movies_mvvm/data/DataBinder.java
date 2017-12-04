@@ -23,7 +23,7 @@ public class DataBinder {
 
         if (url != null && !url.equals("") && Patterns.WEB_URL.matcher(url).matches()) {
             Context context = imageView.getContext();
-            Picasso.with(context).load(url).into(imageView);
+            Picasso.with(context).load("https://image.tmdb.org/t/p/w500/" + url).into(imageView);
         }
     }
 
