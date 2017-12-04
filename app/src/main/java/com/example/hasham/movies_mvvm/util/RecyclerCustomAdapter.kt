@@ -1,6 +1,5 @@
 package com.example.hasham.movies_mvvm.util
 
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -10,16 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.ui.movies.MovieViewModel
 
 /**
  * Created by Khurram on 22-Nov-17.
  */
-class RecyclerCustomAdapter(context: Context, viewModel: MovieViewModel) : RecyclerView.Adapter<RecyclerCustomAdapter.BindingHolder>() {
+class RecyclerCustomAdapter() : RecyclerView.Adapter<RecyclerCustomAdapter.BindingHolder>() {
 
     private var movieList: List<Movie>? = null
+
+
+    fun setProjectList(movieList: List<Movie>) {
+        this.movieList = movieList
+    //    notifyItemRangeInserted(0, movieList.size)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerCustomAdapter.BindingHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -33,11 +38,8 @@ class RecyclerCustomAdapter(context: Context, viewModel: MovieViewModel) : Recyc
         holder.binding.setVariable(BR.movie, item)
     }
 
-    override fun getItemCount(): Int = movieList!!.size
-
-    fun addItems(list: ApiResponse?) {
-        movieList = list as List<Movie>
-        notifyDataSetChanged()
+    override fun getItemCount(): Int {
+        return if (false) 0 else movieList!!.size
     }
 
     class BindingHolder(v: View) : RecyclerView.ViewHolder(v) {
