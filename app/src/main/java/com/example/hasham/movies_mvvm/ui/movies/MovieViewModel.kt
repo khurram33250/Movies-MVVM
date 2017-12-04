@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
+import android.util.Log
 import com.example.hasham.movies_mvvm.ApplicationMain
 import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.remote.API
@@ -23,7 +24,7 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
 
     private var apiResponseObservable: LiveData<ApiResponse>
 
-        var page = MutableLiveData<Int>()
+    var page = MutableLiveData<Int>()
 
     init {
 

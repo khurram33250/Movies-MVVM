@@ -1,8 +1,9 @@
-package com.example.hasham.movies_mvvm.util
+package com.example.hasham.movies_mvvm.ui
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,10 +61,7 @@ class RecyclerBindingAdapter<T>(private val holderLayout: Int, private val varia
     }
 
     class BindingHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val binding: ViewDataBinding
+        val binding: ViewDataBinding = DataBindingUtil.bind(v)
 
-        init {
-            binding = DataBindingUtil.bind(v)
-        }
     }
 }

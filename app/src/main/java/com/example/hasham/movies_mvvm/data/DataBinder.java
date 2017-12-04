@@ -2,6 +2,7 @@ package com.example.hasham.movies_mvvm.data;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.ImageView;
 
@@ -21,9 +22,9 @@ public class DataBinder {
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
 
-        if (url != null && !url.equals("") && Patterns.WEB_URL.matcher(url).matches()) {
+        if (url != null && !url.equals("")) {
             Context context = imageView.getContext();
-            Picasso.with(context).load("https://image.tmdb.org/t/p/w500/" + url).into(imageView);
+            Picasso.with(context).load("https://image.tmdb.org/t/p/w500" + url).into(imageView);
         }
     }
 
