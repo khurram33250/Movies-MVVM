@@ -17,12 +17,14 @@ import com.example.hasham.movies_mvvm.ui.movies.MovieViewModel
  */
 class RecyclerCustomAdapter() : RecyclerView.Adapter<RecyclerCustomAdapter.BindingHolder>() {
 
-    private var movieList: List<Movie>? = null
+    var movieList: ArrayList<Movie> = ArrayList()
 
 
-    fun setProjectList(movieList: List<Movie>) {
-        this.movieList = movieList
-    //    notifyItemRangeInserted(0, movieList.size)
+    fun addMovies(movies: List<Movie>?) {
+
+        movieList.addAll(movies as List<Movie>)
+
+        //    notifyItemRangeInserted(0, movieList.size)
         notifyDataSetChanged()
     }
 
@@ -33,13 +35,13 @@ class RecyclerCustomAdapter() : RecyclerView.Adapter<RecyclerCustomAdapter.Bindi
     }
 
     override fun onBindViewHolder(holder: RecyclerCustomAdapter.BindingHolder, position: Int) {
-        val item = movieList?.get(position)
+        val item = movieList[position]
 
         holder.binding.setVariable(BR.movie, item)
     }
 
     override fun getItemCount(): Int {
-        return if (false) 0 else movieList!!.size
+        return if (false) 0 else movieList.size
     }
 
     class BindingHolder(v: View) : RecyclerView.ViewHolder(v) {

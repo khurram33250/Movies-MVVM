@@ -22,7 +22,11 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
     private var repository: MovieRepository
 
     private var apiResponseObservable: LiveData<ApiResponse>
-    val page = MutableLiveData<Int>()
+
+
+        var page = MutableLiveData<Int>()
+
+
 
     init {
 
@@ -36,7 +40,7 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
 
     fun getMoviesObservable(): LiveData<ApiResponse> = apiResponseObservable
 
-    fun requestNextPage(nextPage: Int) {
+    fun requestMovies(nextPage: Int) {
 
         page.value = nextPage
     }

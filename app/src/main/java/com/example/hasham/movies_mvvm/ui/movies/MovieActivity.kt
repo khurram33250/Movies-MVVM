@@ -25,8 +25,8 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
     private lateinit var adapter: RecyclerCustomAdapter
     private var currentPage = 1
     private var pastVisibleItems: Int = 0
-    private var visibleItemCount:Int = 0
-    private var totalItemCount:Int = 0
+    private var visibleItemCount: Int = 0
+    private var totalItemCount: Int = 0
     private var requestLoading = false
     private val is_last_page = false
 
@@ -51,51 +51,41 @@ class MovieActivity : AppCompatActivity(), MovieNavigator {
         })
         filterSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        viewModel.getMoviesObservable().observe(this, Observer<ApiResponse> { resp ->
+        binding.recyclerViewMain.layoutManager = layoutManager
+        binding.recyclerViewMain.setHasFixedSize(true)
+        binding.recyclerViewMain.setItemViewCacheSize(20)
+        binding.recyclerViewMain.isDrawingCacheEnabled = true
+        binding.recyclerViewMain.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        binding.recyclerViewMain.adapter = adapter
 
-            Log.e("movies", resp?.results?.size.toString() + "   .")
+        binding.recyclerViewMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy > 0)
+                //check for scroll down
+                {
+                    visibleItemCount = layoutManager.childCount
+                    totalItemCount = layoutManager.itemCount
+                    pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
 
-            binding.recyclerViewMain.layoutManager = layoutManager
-            binding.recyclerViewMain.setHasFixedSize(true)
-            binding.recyclerViewMain.setItemViewCacheSize(20)
-            binding.recyclerViewMain.isDrawingCacheEnabled = true
-            binding.recyclerViewMain.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-            binding.recyclerViewMain.adapter = adapter
-            adapter.setProjectList(resp!!.results)
+                    if (!requestLoading && !is_last_page) {
+                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
+                            requestLoading = true
 
-            Log.e("response", resp.toString())
+                            viewModel.requestMovies(currentPage++)
 
-         //   viewModel.requestNextPage(currentPage++)
-
-            binding.recyclerViewMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                    if (dy > 0)
-                    //check for scroll down
-                    {
-                        visibleItemCount = layoutManager.childCount
-                        totalItemCount = layoutManager.itemCount
-                        pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-
-                        if (!requestLoading && !is_last_page) {
-                            if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-                                requestLoading = true
-
-                                currentPage++
-                                viewModel.requestNextPage(currentPage)
-                                Log.v("scrolling", "scroll down" + currentPage)
-
-
-                            }
                         }
                     }
                 }
-            })
+            }
         })
 
-        viewModel.getMoviesObservable().observe(this, Observer<ApiResponse> {
+        viewModel.getMoviesObservable().observe(this, Observer<ApiResponse> { resp ->
+
+            requestLoading = false
+            adapter.addMovies(resp?.results)
 
         })
 
-        viewModel.requestNextPage(currentPage)
+        viewModel.requestMovies(currentPage)
     }
 }
