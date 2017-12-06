@@ -99,9 +99,8 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
 
         Log.v("SingleMovie", item.toString())
 
-        val intent = Intent(this, MovieDetailActivity::class.java)
-        intent.putExtra("MovieObject", item)
-        startActivity(intent)
+        startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
 
     }
 

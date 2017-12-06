@@ -10,13 +10,12 @@ import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.data.remote.API
 import com.example.hasham.movies_mvvm.data.repository.MovieRepository
-import com.example.hasham.movies_mvvm.ui.movies.MovieNavigator
 import javax.inject.Inject
 
 /**
  * Created by Khurram on 05-Dec-17.
  */
-class MovieDetailViewModel(application: Application, private val navigator: MovieDetailNavigator) : AndroidViewModel(application)  {
+class MovieDetailViewModel(application: Application, private val navigator: MovieDetailNavigator) : AndroidViewModel(application) {
 
     @Inject
     lateinit var apiService: API.Endpoints
@@ -31,8 +30,11 @@ class MovieDetailViewModel(application: Application, private val navigator: Movi
         (application as ApplicationMain).restComponent?.inject(this)
         repository = MovieRepository(apiService)
 
+        //    apiResponseObservable = repository.getRelatedMovies(id.toString())
 
-        apiResponseObservable = repository.getRelatedMovies(id.value.toString())
+        apiResponseObservable = Transformations.switchMap(id, {
+            repository.getRelatedMovies(id.value.toString())
+        })
     }
 
     fun getRelatedMoviesObservable(): LiveData<ApiResponse> = apiResponseObservable

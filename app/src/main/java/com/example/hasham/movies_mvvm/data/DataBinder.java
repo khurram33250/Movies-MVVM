@@ -31,9 +31,9 @@ public class DataBinder {
     @BindingAdapter("imageUrlCrop")
     public static void setImageCropUrl(ImageView imageView, String url) {
 
-        if (url != null && !url.equals("") && Patterns.WEB_URL.matcher(url).matches()) {
+        if (url != null && !url.equals("")) {
             Context context = imageView.getContext();
-            Picasso.with(context).load(url).transform(new CropTransformation(500, 500, CropTransformation.GravityHorizontal.LEFT,
+            Picasso.with(context).load("https://image.tmdb.org/t/p/w500" + url).transform(new CropTransformation(500, 500, CropTransformation.GravityHorizontal.LEFT,
                     CropTransformation.GravityVertical.TOP)).into(imageView);
         }
     }

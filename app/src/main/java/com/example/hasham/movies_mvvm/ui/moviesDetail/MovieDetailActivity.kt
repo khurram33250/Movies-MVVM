@@ -1,10 +1,12 @@
 package com.example.hasham.movies_mvvm.ui.moviesDetail
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
@@ -15,11 +17,11 @@ import com.example.hasham.movies_mvvm.databinding.ActivityMovieDetailBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
 
-class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
+class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
 
     private lateinit var viewModel: MovieDetailViewModel
     private val binding: ActivityMovieDetailBinding by ActivityBindingProvider(R.layout.activity_movie_detail)
-    private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
+    private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie_horizontal, BR.movie)
     private lateinit var movieListObserver: Observer<ApiResponse>
     private lateinit var movie: Movie
 
@@ -38,6 +40,16 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
             e.printStackTrace()
         }
 
+        val extras = intent.extras
+        movie = extras.getParcelable<Movie>("MovieObject")
+
+        Log.v("movieData", movie.toString())
+
+        if (true) {
+            binding.setVariable(BR.detail, movie)
+            title = movie.originalTitle
+        }
+
         binding.recyclerViewDetail.apply {
 
             layoutManager = mLayoutManager
@@ -49,40 +61,44 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
             adapter = mAdapter
         }
 
-        val extras = intent.extras
-        movie = extras.getParcelable<Movie>("MovieObject")
-
-        if (true) {
-            binding.setVariable(BR.detail, movie)
-            title = movie.originalTitle
-            //    getRelatedMovies(movie.getId())
-
-/*            viewModel.getRelatedMoviesObservable().observe(this, movieListObserver)
-            movie.id?.let { viewModel.requestRelatedMovies(it) }*/
-        }
-
-/*        movieListObserver = Observer { resp ->
+        movieListObserver = Observer { resp ->
 
             mAdapter.addItems(resp?.results as ArrayList<Movie>)
-            Log.v("moviesRow", resp.results.toString())
-        }*/
+        }
+
 
         binding.floatingButton.setOnClickListener {
-            Log.v("clicked", "floating button")
             viewModel.addToFavourites(movie)
         }
+    }
+
+    override fun onItemClick(position: Int, item: Movie) {
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 
     override fun onStart() {
         super.onStart()
 
         viewModel.getRelatedMoviesObservable().observe(this, movieListObserver)
-        movie.id?.let { viewModel.requestRelatedMovies(it) }
+        viewModel.requestRelatedMovies(movie.id!!)
     }
 
     override fun onDestroy() {
 
         viewModel.getRelatedMoviesObservable().removeObserver(movieListObserver)
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
     }
 }

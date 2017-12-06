@@ -47,8 +47,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="@dimen/fab_margin"
-                    app:srcCompat="@drawable/ic_favorite_unselected"
-                    app:layout_collapseMode="parallax"/>
+                    app:layout_collapseMode="parallax"
+                    app:srcCompat="@drawable/ic_favorite_unselected" />
 
                 <View
                     android:layout_width="match_parent"
@@ -77,6 +77,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textView_overview"
                     fontPath="fonts/Roboto-Light.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,31 +93,31 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/textView_releaseDate"
                         fontPath="fonts/Roboto-Light.ttf"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text='@{detail.releaseDateFormated}'
+                        android:text='@{detail.releaseDate}'
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorWhite" />
 
-<!--                    <TextView
+                    <TextView
                         fontPath="fonts/Roboto-Light.ttf"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text='@{detail.voteAverage}'
+                        android:text='@{detail.releaseDate}'
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/colorWhite"/>-->
+                        android:textColor="@color/colorWhite" />
 
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView_related"
                     fontPath="fonts/Roboto-Light.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +127,7 @@
                     android:text="@string/related"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/colorWhite"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_Detail"

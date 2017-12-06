@@ -60,7 +60,8 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("vote_count")
                  val voteCount: Int? = null,
                  val releaseDateFormated: String? = null
-) : Parcelable {
+
+)  : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readLong(),
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
