@@ -31,6 +31,7 @@ class MovieRepository(private var movieService: API.Endpoints) {
 
             override fun onFailure(call: Call<ApiResponse>?, t: Throwable?) {
 
+
             }
 
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {

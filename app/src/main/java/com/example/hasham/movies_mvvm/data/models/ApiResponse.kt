@@ -61,7 +61,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  val voteCount: Int? = null,
                  val releaseDateFormated: String? = null
 
-)  : Parcelable {
+) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readLong(),
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
@@ -119,9 +119,9 @@ data class Movie(@PrimaryKey(autoGenerate = true)
         override fun newArray(size: Int): Array<Movie?> = arrayOfNulls(size)
     }
 
-    val _overview = overview
-    get(): String? {
-        return "OVERVIEW:\n\n"+overview
-    }
+    val _overview: String
+        get(): String {
+            return "OVERVIEW:\n\n" + overview
+        }
 }
 

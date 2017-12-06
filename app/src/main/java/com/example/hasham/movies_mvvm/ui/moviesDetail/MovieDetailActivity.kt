@@ -1,3 +1,5 @@
+@file:Suppress("SENSELESS_COMPARISON")
+
 package com.example.hasham.movies_mvvm.ui.moviesDetail
 
 import android.arch.lifecycle.Observer
@@ -40,12 +42,11 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
             e.printStackTrace()
         }
 
-        val extras = intent.extras
-        movie = extras.getParcelable<Movie>("MovieObject")
+        val bundle = intent.extras
 
-        Log.v("movieData", movie.toString())
+        if (bundle != null) {
 
-        if (true) {
+            movie = bundle.getParcelable("MovieObject")
             binding.setVariable(BR.detail, movie)
             title = movie.originalTitle
         }
@@ -68,8 +69,13 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
 
 
         binding.floatingButton.setOnClickListener {
-            viewModel.addToFavourites(movie)
+
+            if(movie!=null) {
+                viewModel.addToFavourites(movie)
+            }
         }
+
+        mAdapter.setOnItemClickListener(this)
     }
 
     override fun onItemClick(position: Int, item: Movie) {
@@ -88,7 +94,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
         super.onStart()
 
         viewModel.getRelatedMoviesObservable().observe(this, movieListObserver)
-        viewModel.requestRelatedMovies(movie.id!!)
+        viewModel.requestRelatedMovies(movie.id as Int)
     }
 
     override fun onDestroy() {
