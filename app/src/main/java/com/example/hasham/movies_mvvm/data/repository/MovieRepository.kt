@@ -40,4 +40,23 @@ class MovieRepository(private var movieService: API.Endpoints) {
 
         return data
     }
+
+    fun getRelatedMovies(id: String): LiveData<ApiResponse> {
+
+        val data = MutableLiveData<ApiResponse>()
+
+        movieService.getRelatedMovies(id).enqueue(object : Callback<ApiResponse> {
+
+            override fun onFailure(call: Call<ApiResponse>?, t: Throwable?) {
+
+            }
+
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+
+                data.value = response.body()
+            }
+        })
+
+        return data
+    }
 }

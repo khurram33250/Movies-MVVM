@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.moviesDetail.MovieDetailActivity"
+            android:parentActivityName=".ui.moviesDetail.MovieDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.hasham.movies_mvvm.ui.movies.MovieActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import com.example.hasham.movies_mvvm.di.modules.NetModule
 import com.example.hasham.movies_mvvm.ui.BaseActivity
 import com.example.hasham.movies_mvvm.ui.movies.MovieActivity
 import com.example.hasham.movies_mvvm.ui.movies.MovieViewModel
+import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -18,4 +19,5 @@ interface RestComponent {
     fun inject(activity: BaseActivity)
     fun inject(activity: MovieActivity)
     fun inject(viewModel: MovieViewModel)
+    fun inject(viewModel: MovieDetailViewModel)
 }

@@ -1,11 +1,13 @@
 package com.example.hasham.movies_mvvm.ui.movies
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,6 +19,7 @@ import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
+import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
 
 class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
 
@@ -93,6 +96,12 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
     }
 
     override fun onItemClick(position: Int, item: Movie) {
+
+        Log.v("SingleMovie", item.toString())
+
+        val intent = Intent(this, MovieDetailActivity::class.java)
+        intent.putExtra("MovieObject", item)
+        startActivity(intent)
 
     }
 
