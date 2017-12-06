@@ -30,6 +30,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.hasham.movies_mvvm.ui.movies.MovieActivity" />
         </activity>
+        <activity android:name=".ui.favouriteMovies.FavouriteMoviesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.movies.MovieActivity" />
+        </activity>
     </application>
 
 </manifest>

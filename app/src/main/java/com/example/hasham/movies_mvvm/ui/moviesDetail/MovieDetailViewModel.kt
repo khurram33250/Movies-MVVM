@@ -5,7 +5,10 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
+import android.os.AsyncTask
+import android.util.Log
 import com.example.hasham.movies_mvvm.ApplicationMain
+import com.example.hasham.movies_mvvm.data.local.db.FavMoviesDao
 import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.data.remote.API
@@ -21,6 +24,8 @@ class MovieDetailViewModel(application: Application, private val navigator: Movi
     @Inject
     lateinit var apiService: API.Endpoints
     private var repository: MovieRepository
+
+    private lateinit var favMoviesDao: FavMoviesDao
 
     private var apiResponseObservable: LiveData<ApiResponse>
 
@@ -43,6 +48,17 @@ class MovieDetailViewModel(application: Application, private val navigator: Movi
     }
 
     fun addToFavourites(movie: Movie) {
-
+        InsertFavMovie().execute(movie)
+        Log.e("name", movie.toString())
     }
-}
+
+
+    inner class InsertFavMovie : AsyncTask<Movie, String, String>() {
+
+
+        override fun doInBackground(vararg params: Movie): String? {
+
+            favMoviesDao.insertFavMovie(params[0])
+            return null
+        }
+}}

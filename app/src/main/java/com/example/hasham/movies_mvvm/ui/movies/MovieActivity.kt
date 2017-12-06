@@ -19,6 +19,7 @@ import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
+import com.example.hasham.movies_mvvm.ui.favouriteMovies.FavouriteMoviesActivity
 import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
 
 class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
@@ -114,7 +115,8 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         when (item.itemId) {
             R.id.action_favorite -> {
 
-
+                val intent = Intent(this,FavouriteMoviesActivity::class.java)
+                startActivity(intent)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

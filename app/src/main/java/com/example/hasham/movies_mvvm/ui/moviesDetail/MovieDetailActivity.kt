@@ -69,15 +69,16 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
 
         binding.floatingButton.setOnClickListener {
             Log.v("clicked", "floating button")
-            viewModel.addToFavourites(movie)
+            var favmovie= Movie(1, true, "", 1, "" , 1, "", "", "", "", 0.0, "", "", 1, 1, "", "", "", true, 1.0, 1, "")
+            viewModel.addToFavourites(favmovie)
         }
     }
 
     override fun onStart() {
         super.onStart()
 
-        viewModel.getRelatedMoviesObservable().observe(this, movieListObserver)
-        movie.id?.let { viewModel.requestRelatedMovies(it) }
+//        viewModel.getRelatedMoviesObservable().observe(this, movieListObserver)
+//        movie.id?.let { viewModel.requestRelatedMovies(it) }
     }
 
     override fun onDestroy() {

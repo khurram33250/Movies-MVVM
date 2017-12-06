@@ -38,7 +38,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("overview")
                  val overview: String? = null,
                  @SerializedName("popularity")
-                 val popularity: Float? = null,
+                 val popularity: Double? = null,
                  @SerializedName("poster_path")
                  val posterPath: String? = null,
                  @SerializedName("release_date")
@@ -56,7 +56,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("video")
                  val video: Boolean? = null,
                  @SerializedName("vote_average")
-                 val voteAverage: Float? = null,
+                 val voteAverage: Double? = null,
                  @SerializedName("vote_count")
                  val voteCount: Int? = null,
                  val releaseDateFormated: String? = null
@@ -72,7 +72,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readValue(Float::class.java.classLoader) as? Float,
+            parcel.readValue(Float::class.java.classLoader) as? Double,
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -81,7 +81,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
-            parcel.readValue(Float::class.java.classLoader) as? Float,
+            parcel.readValue(Float::class.java.classLoader) as? Double,
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString())
 
