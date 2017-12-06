@@ -36,7 +36,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("original_title")
                  val originalTitle: String? = null,
                  @SerializedName("overview")
-                 val overview: String? = null,
+                 val overview: String = "",
                  @SerializedName("popularity")
                  val popularity: Float? = null,
                  @SerializedName("poster_path")
@@ -117,6 +117,11 @@ data class Movie(@PrimaryKey(autoGenerate = true)
         override fun createFromParcel(parcel: Parcel): Movie = Movie(parcel)
 
         override fun newArray(size: Int): Array<Movie?> = arrayOfNulls(size)
+    }
+
+    val _overview = overview
+    get(): String? {
+        return "OVERVIEW:\n\n"+overview
     }
 }
 
