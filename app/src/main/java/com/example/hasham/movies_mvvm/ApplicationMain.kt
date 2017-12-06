@@ -43,7 +43,7 @@ class ApplicationMain : Application() {
     // Create the database
     fun create(context: Context): AppDatabase {
         val builder = Room.databaseBuilder(context.applicationContext,
-                AppDatabase::class.java, "app_db")
+                AppDatabase::class.java, "app_db").fallbackToDestructiveMigration()
         return builder.build()
     }
 

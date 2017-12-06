@@ -69,8 +69,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
 
         binding.floatingButton.setOnClickListener {
             Log.v("clicked", "floating button")
-            var favmovie= Movie(1, true, "", 1, "" , 1, "", "", "", "", 0.0, "", "", 1, 1, "", "", "", true, 1.0, 1, "")
-            viewModel.addToFavourites(favmovie)
+            viewModel.addToFavourites(movie)
         }
     }
 

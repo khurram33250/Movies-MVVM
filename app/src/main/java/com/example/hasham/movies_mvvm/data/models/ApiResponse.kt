@@ -17,9 +17,7 @@ data class ApiResponse(@SerializedName("page")
                        val results: List<Movie>)
 
 @Entity
-data class Movie(@PrimaryKey(autoGenerate = true)
-                 val bid: Long,
-                 @SerializedName("adult")
+data class Movie(@SerializedName("adult")
                  val adult: Boolean? = null,
                  @SerializedName("backdrop_path")
                  val backdropPath: String? = null,
@@ -27,8 +25,9 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  val budget: Int? = null,
                  @SerializedName("homepage")
                  val homepage: String? = null,
+                 @PrimaryKey(autoGenerate = false)
                  @SerializedName("id")
-                 val id: Int? = null,
+                 val id: Long,
                  @SerializedName("imdb_id")
                  val imdbId: String? = null,
                  @SerializedName("original_language")
@@ -62,12 +61,11 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  val releaseDateFormated: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readLong(),
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString(),
-            parcel.readValue(Int::class.java.classLoader) as? Int,
+            parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -86,7 +84,6 @@ data class Movie(@PrimaryKey(autoGenerate = true)
             parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(bid)
         parcel.writeValue(adult)
         parcel.writeString(backdropPath)
         parcel.writeValue(budget)

@@ -44,7 +44,7 @@ class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator {
         liveData.observe(this, object : Observer<List<Movie>> {
             override fun onChanged(t: List<Movie>?) {
                 if (t != null)
-                    mAdapter!!.addItems(t as AbstractList<Movie>)
+                    mAdapter.addItems(t as AbstractList<Movie>)
             }
 
         })
