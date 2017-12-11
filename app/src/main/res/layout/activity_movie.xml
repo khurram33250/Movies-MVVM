@@ -10,11 +10,55 @@
         android:focusableInTouchMode="true"
         tools:context=".ui.movies.MovieActivity">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_Main"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_dramaName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/ratedDramas"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+                    android:textColor="@color/colorWhite"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_drama"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/ratedMovies"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/colorWhite"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_Main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible"
+                    app:layout_anchor="@id/recyclerView_drama"
+                    app:layout_anchorGravity="bottom" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/loading_view"
@@ -102,7 +146,6 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/filter"
                 android:theme="@style/AccentButton" />
-
 
         </LinearLayout>
 

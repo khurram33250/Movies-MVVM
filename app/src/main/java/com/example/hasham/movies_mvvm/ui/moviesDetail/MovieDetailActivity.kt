@@ -7,14 +7,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
+import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieDetailBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
@@ -24,7 +23,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
     private lateinit var viewModel: MovieDetailViewModel
     private val binding: ActivityMovieDetailBinding by ActivityBindingProvider(R.layout.activity_movie_detail)
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie_horizontal, BR.movie)
-    private lateinit var movieListObserver: Observer<ApiResponse>
+    private lateinit var movieListObserver: Observer<MovieResponse>
     private lateinit var movie: Movie
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +69,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
 
         binding.floatingButton.setOnClickListener {
 
-            if(movie!=null) {
+            if (movie != null) {
                 viewModel.addToFavourites(movie)
             }
         }
@@ -80,6 +79,8 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
 
     override fun onItemClick(position: Int, item: Movie) {
 
+        startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

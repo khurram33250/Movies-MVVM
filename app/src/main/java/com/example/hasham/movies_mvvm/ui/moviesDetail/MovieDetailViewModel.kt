@@ -6,8 +6,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import com.example.hasham.movies_mvvm.ApplicationMain
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
+import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import com.example.hasham.movies_mvvm.data.remote.API
 import com.example.hasham.movies_mvvm.data.repository.MovieRepository
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class MovieDetailViewModel(application: Application, private val navigator: Movi
     lateinit var apiService: API.Endpoints
     private var repository: MovieRepository
 
-    private var apiResponseObservable: LiveData<ApiResponse>
+    private var apiResponseObservable: LiveData<MovieResponse>
 
     var id = MutableLiveData<Int>()
 
@@ -37,7 +37,7 @@ class MovieDetailViewModel(application: Application, private val navigator: Movi
         })
     }
 
-    fun getRelatedMoviesObservable(): LiveData<ApiResponse> = apiResponseObservable
+    fun getRelatedMoviesObservable(): LiveData<MovieResponse> = apiResponseObservable
 
     fun requestRelatedMovies(pageId: Int) {
 

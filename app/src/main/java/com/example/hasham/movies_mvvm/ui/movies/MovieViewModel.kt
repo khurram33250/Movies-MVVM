@@ -5,10 +5,11 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
-import android.util.Log
 import com.example.hasham.movies_mvvm.ApplicationMain
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
+import com.example.hasham.movies_mvvm.data.models.DramaResponse
+import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import com.example.hasham.movies_mvvm.data.remote.API
+import com.example.hasham.movies_mvvm.data.repository.DramaRepository
 import com.example.hasham.movies_mvvm.data.repository.MovieRepository
 import javax.inject.Inject
 
@@ -20,31 +21,48 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
 
     @Inject
     lateinit var apiService: API.Endpoints
-    private var repository: MovieRepository
+    private var movieRepository: MovieRepository
+    private var dramaRepository: DramaRepository
 
-    private var apiResponseObservable: LiveData<ApiResponse>
+    private var apiMovieResponseObservable: LiveData<MovieResponse>
+    private var apiDramaResponseObservable: LiveData<DramaResponse>
 
-    var page = MutableLiveData<Int>()
+    var moviePage = MutableLiveData<Int>()
+    var dramaPage = MutableLiveData<Int>()
+
 
     init {
 
         (application as ApplicationMain).restComponent?.inject(this)
-        repository = MovieRepository(apiService)
+        movieRepository = MovieRepository(apiService)
 
-        apiResponseObservable = Transformations.switchMap(page, {
-            repository.getMovies(page.value.toString())
+        (application as ApplicationMain).restComponent?.inject(this)
+        dramaRepository = DramaRepository(apiService)
+
+        apiMovieResponseObservable = Transformations.switchMap(moviePage, {
+            movieRepository.getMovies(moviePage.value.toString())
+        })
+
+        apiDramaResponseObservable = Transformations.switchMap(dramaPage, {
+            dramaRepository.getDramas(dramaPage.value.toString())
         })
     }
 
-    fun getMoviesObservable(): LiveData<ApiResponse> = apiResponseObservable
+    fun getMoviesObservable(): LiveData<MovieResponse> = apiMovieResponseObservable
+
+    fun getDramasObservable(): LiveData<DramaResponse> = apiDramaResponseObservable
 
     fun requestMovies(nextPage: Int) {
 
-        page.value = nextPage
+        moviePage.value = nextPage
     }
 
-    fun isLastPage(page: Int): Boolean {
-        if (page == 100) {
+    fun requestDramas(nextPage: Int) {
+        dramaPage.value = nextPage
+    }
+
+    fun isLastMoviePage(moviePage: Int): Boolean {
+        if (moviePage == 100) {
             return true
         }
         return false

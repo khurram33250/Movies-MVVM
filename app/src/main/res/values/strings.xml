@@ -12,4 +12,6 @@
     <string name="title_activity_detail">Movie Detail</string>
     <string name="imdb">IMDB</string>
     <string name="related">RELATED MOVIES:</string>
+    <string name="ratedMovies">Top Rated Movies</string>
+    <string name="ratedDramas">Top Rated Dramas</string>
 </resources>

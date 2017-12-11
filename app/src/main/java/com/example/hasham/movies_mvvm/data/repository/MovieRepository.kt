@@ -1,11 +1,11 @@
 package com.example.hasham.movies_mvvm.data.repository
 
 import android.arch.lifecycle.LiveData
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.remote.API
 import retrofit2.Call
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
+import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -23,18 +23,18 @@ class MovieRepository(private var movieService: API.Endpoints) {
         movieService = movieService
     }
 
-    fun getMovies(page: String): LiveData<ApiResponse> {
+    fun getMovies(page: String): LiveData<MovieResponse> {
 
-        val data = MutableLiveData<ApiResponse>()
+        val data = MutableLiveData<MovieResponse>()
 
-        movieService.getMovies(page,"popularity.desc").enqueue(object : Callback<ApiResponse> {
+        movieService.getMovies(page,"popularity.desc").enqueue(object : Callback<MovieResponse> {
 
-            override fun onFailure(call: Call<ApiResponse>?, t: Throwable?) {
+            override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
 
 
             }
 
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
 
                 data.value = response.body()
             }
@@ -43,17 +43,17 @@ class MovieRepository(private var movieService: API.Endpoints) {
         return data
     }
 
-    fun getRelatedMovies(id: String): LiveData<ApiResponse> {
+    fun getRelatedMovies(id: String): LiveData<MovieResponse> {
 
-        val data = MutableLiveData<ApiResponse>()
+        val data = MutableLiveData<MovieResponse>()
 
-        movieService.getRelatedMovies(id).enqueue(object : Callback<ApiResponse> {
+        movieService.getRelatedMovies(id).enqueue(object : Callback<MovieResponse> {
 
-            override fun onFailure(call: Call<ApiResponse>?, t: Throwable?) {
+            override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
 
             }
 
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
 
                 data.value = response.body()
                 Log.e("response", data.value.toString())

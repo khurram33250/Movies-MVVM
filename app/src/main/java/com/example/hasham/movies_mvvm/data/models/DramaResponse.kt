@@ -6,18 +6,21 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Created by Khurram on 08-Dec-17.
+ */
 
-data class ApiResponse(@SerializedName("page")
-                       val page: Int,
-                       @SerializedName("total_results")
-                       val totalResults: Int? = null,
-                       @SerializedName("total_pages")
-                       val totalPages: Int? = null,
-                       @SerializedName("results")
-                       val results: List<Movie>)
+data class DramaResponse(@SerializedName("page")
+                         val page: Int? = null,
+                         @SerializedName("total_results")
+                         val totalResults: Int? = null,
+                         @SerializedName("total_pages")
+                         val totalPages: Int? = null,
+                         @SerializedName("results")
+                         val results: List<Movie>? = null)
 
 @Entity
-data class Movie(@PrimaryKey(autoGenerate = true)
+data class Drama(@PrimaryKey(autoGenerate = true)
                  val bid: Long,
                  @SerializedName("adult")
                  val adult: Boolean? = null,
@@ -36,7 +39,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("original_title")
                  val originalTitle: String? = null,
                  @SerializedName("overview")
-                 val overview: String = "",
+                 val overview: String? = null,
                  @SerializedName("popularity")
                  val popularity: Float? = null,
                  @SerializedName("poster_path")
@@ -60,7 +63,6 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("vote_count")
                  val voteCount: Int? = null,
                  val releaseDateFormated: String? = null
-
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readLong(),
@@ -123,5 +125,32 @@ data class Movie(@PrimaryKey(autoGenerate = true)
         get(): String {
             return "OVERVIEW:\n\n" + overview
         }
-}
 
+    val _releaseDate: String
+        get(): String {
+            return "RELEASED ON:  " + releaseDate
+        }
+
+    val _voteAverage: String
+        get(): String {
+            return "RATING:  " + voteAverage.toString()
+        }
+
+//    var  _releaseDateFormated: String = ""
+//        get(): String {z
+//
+//            val input = SimpleDateFormat("yyyy-MM-dd", Locale.UK)
+//            val output = SimpleDateFormat("dd MMM yyyy", Locale.UK)
+//
+//            try {
+//                val movieDate = input.parse(releaseDate)  // parse input
+//                _releaseDateFormated = output.format(movieDate)    // format output
+//                return "RELEASED ON:  " + _releaseDateFormated
+//            } catch (e: ParseException) {
+//                e.printStackTrace()
+//            }
+//
+//            return _releaseDateFormated
+//        }
+
+}
