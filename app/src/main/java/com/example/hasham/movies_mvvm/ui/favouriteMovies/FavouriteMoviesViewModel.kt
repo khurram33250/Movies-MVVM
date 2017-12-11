@@ -6,16 +6,21 @@ import android.arch.lifecycle.LiveData
 import android.os.AsyncTask
 import com.example.hasham.movies_mvvm.ApplicationMain
 import com.example.hasham.movies_mvvm.data.models.Movie
-
-import com.example.hasham.projectk.data.local.db.AppDatabase
 import com.example.hasham.projectk.data.local.db.MovieDao
 
-/**
- * Created by Waqas on 06-Dec-17.
- */
+
+
 class FavouriteMoviesViewModel(application: Application, private val navigator: FavouriteMoviesNavigator) : AndroidViewModel(application) {
 
     private val movieDao: MovieDao = getApplication<ApplicationMain>().getInstance().movieDao()
+
+    fun getFavouriteMovies(): LiveData<List<Movie>> {
+        return GetFavMoviesList().execute().get()
+    }
+
+    fun deleteItem(movie: Movie) {
+        deleteFavMovie().execute(movie)
+    }
 
     inner class GetFavMoviesList : AsyncTask<String, String, LiveData<List<Movie>>>() {
 
@@ -24,4 +29,14 @@ class FavouriteMoviesViewModel(application: Application, private val navigator: 
             return movieDao.getMovie()
         }
     }
+
+    inner class deleteFavMovie : AsyncTask<Movie, String, String>() {
+
+        override fun doInBackground(vararg params: Movie): String? {
+
+            movieDao.deleteMovie(String())
+            return null
+        }
+    }
+
 }

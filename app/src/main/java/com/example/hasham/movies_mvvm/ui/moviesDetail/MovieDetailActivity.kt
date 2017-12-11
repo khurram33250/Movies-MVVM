@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
@@ -14,6 +15,7 @@ import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieDetailBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
+import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
 
@@ -22,6 +24,10 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private lateinit var movieListObserver: Observer<ApiResponse>
     private lateinit var movie: Movie
+    var Selected : Int = R.drawable.ic_favorite_selected
+    var UnSelected : Int = R.drawable.ic_favorite_unselected
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,8 +76,18 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
         binding.floatingButton.setOnClickListener {
             Log.v("clicked", "floating button")
             viewModel.addToFavourites(movie)
+
+            var click : Boolean= true
+                if (click) {
+                    floating_button.setImageResource(Selected);
+                    click = false;
+                } else {
+                    floating_button.setImageResource(UnSelected);
+                    click = true;
+                }
+            }
         }
-    }
+
 
     override fun onStart() {
         super.onStart()
@@ -80,9 +96,9 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
 //        movie.id?.let { viewModel.requestRelatedMovies(it) }
     }
 
-    override fun onDestroy() {
-
-        viewModel.getRelatedMoviesObservable().removeObserver(movieListObserver)
-        super.onDestroy()
-    }
+//    override fun onDestroy() {
+//
+////        viewModel.getRelatedMoviesObservable().removeObserver(movieListObserver)
+////        super.onDestroy()
+//    }
 }

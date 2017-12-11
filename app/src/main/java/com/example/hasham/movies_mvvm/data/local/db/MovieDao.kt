@@ -22,6 +22,6 @@ interface MovieDao {
     @Update
     fun updateMovie(movie: Movie): Int
 
-    @Query("DELETE FROM Movie")
-    fun deleteMovie()
+    @Query("DELETE FROM Movie WHERE title = :Title ")
+    fun deleteMovie(Title: String)
 }
