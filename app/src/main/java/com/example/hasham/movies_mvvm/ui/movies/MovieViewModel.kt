@@ -66,17 +66,4 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
         }
         return false
     }
-
-    fun getAllFavouriteMovies(): List<Movie> {
-        return GetAllFavMoviesList().execute().get()
-    }
-
-
-    inner class GetAllFavMoviesList : AsyncTask<String, String, List<Movie>>() {
-
-        override fun doInBackground(vararg params: String): List<Movie> {
-
-            return movieDao.getAllMovie()
-        }
-    }
 }

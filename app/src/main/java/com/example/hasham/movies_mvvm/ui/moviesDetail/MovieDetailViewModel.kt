@@ -4,11 +4,11 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import android.os.AsyncTask
 import android.support.design.widget.FloatingActionButton
 import com.example.hasham.movies_mvvm.ApplicationMain
 import com.example.hasham.movies_mvvm.R
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import com.example.hasham.movies_mvvm.data.remote.API

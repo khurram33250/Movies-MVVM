@@ -66,27 +66,6 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
             mAdapter.addItems(resp?.results as ArrayList<Movie>)
         }
 
-
-        binding.floatingButton.setOnClickListener {
-
-            if (movie != null) {
-                viewModel.addToFavourites(movie)
-            }
-        }
-
-        mAdapter.setOnItemClickListener(this)
-    }
-
-    override fun onItemClick(position: Int, item: Movie) {
-
-        startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-            else -> return super.onOptionsItemSelected(item)
         binding.floatingButton.setOnClickListener {
 
             if (viewModel.isMovieFavorite(movie.title)) {
@@ -98,10 +77,27 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
                 viewModel.addToFavourites(movie)
             }
 
-            viewModel.setIsMovieFavIcon(movie.title,binding.floatingButton)
+            viewModel.setIsMovieFavIcon(movie.title, binding.floatingButton)
         }
 
-//        viewModel.setIsMovieFavIcon(movie.title,binding.floatingButton)
+        viewModel.setIsMovieFavIcon(movie.title, binding.floatingButton)
+
+        mAdapter.setOnItemClickListener(this)
+    }
+
+    override fun onItemClick(position: Int, item: Movie) {
+
+        startActivity(Intent(this, MovieDetailActivity::class.java)
+                .putExtra("MovieObject", item))
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 
 
@@ -109,7 +105,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
         super.onStart()
 
         viewModel.getRelatedMoviesObservable().observe(this, movieListObserver)
-        viewModel.requestRelatedMovies(movie.id as Int)
+        viewModel.requestRelatedMovies(movie.id.toInt())
     }
 
     override fun onDestroy() {

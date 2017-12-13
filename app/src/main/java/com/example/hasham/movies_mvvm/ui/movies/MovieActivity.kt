@@ -29,7 +29,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
     private val binding: ActivityMovieBinding by ActivityBindingProvider(R.layout.activity_movie)
     private val movieAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private val dramaAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie_horizontal, BR.movie)
-    private var mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private lateinit var movieListObserver: Observer<MovieResponse>
     private lateinit var dramaListObserver: Observer<MovieResponse>
     private var currentMoviePage = 1
@@ -46,24 +45,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         val gridLayoutManager = GridLayoutManager(this, resources.getInteger(R.integer.columns))
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        val filterSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
-
-        moviesList = viewModel.getAllFavouriteMovies()
-        Log.e("mv", moviesList.toString())
-
-
-        filterSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                    filterSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        })
-        filterSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-        binding.recyclerViewMain.isNestedScrollingEnabled = false
         binding.recyclerViewMain.apply {
 
             layoutManager = gridLayoutManager
@@ -72,6 +53,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
             isDrawingCacheEnabled = true
             drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
             adapter = movieAdapter
+            isNestedScrollingEnabled = false
         }
 
         binding.recyclerViewDrama.apply {
@@ -123,8 +105,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
     }
 
     override fun onItemClick(position: Int, item: Movie) {
-
-        Log.v("SingleMovie", item.toString())
 
         startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
