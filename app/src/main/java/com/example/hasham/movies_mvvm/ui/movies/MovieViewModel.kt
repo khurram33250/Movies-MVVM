@@ -35,8 +35,6 @@ class MovieViewModel(application: Application, private val navigator: MovieNavig
 
         (application as ApplicationMain).restComponent?.inject(this)
         movieRepository = MovieRepository(apiService)
-
-        (application as ApplicationMain).restComponent?.inject(this)
         dramaRepository = DramaRepository(apiService)
 
         apiMovieResponseObservable = Transformations.switchMap(moviePage, {

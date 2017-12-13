@@ -17,7 +17,7 @@ data class DramaResponse(@SerializedName("page")
                          @SerializedName("total_pages")
                          val totalPages: Int? = null,
                          @SerializedName("results")
-                         val results: List<Movie>? = null)
+                         val results: List<Drama>? = null)
 
 @Entity
 data class Drama(@PrimaryKey(autoGenerate = true)
@@ -115,10 +115,10 @@ data class Drama(@PrimaryKey(autoGenerate = true)
 
     override fun describeContents(): Int = 0
 
-    companion object CREATOR : Parcelable.Creator<Movie> {
-        override fun createFromParcel(parcel: Parcel): Movie = Movie(parcel)
+    companion object CREATOR : Parcelable.Creator<Drama> {
+        override fun createFromParcel(parcel: Parcel): Drama = Drama(parcel)
 
-        override fun newArray(size: Int): Array<Movie?> = arrayOfNulls(size)
+        override fun newArray(size: Int): Array<Drama?> = arrayOfNulls(size)
     }
 
     val _overview: String

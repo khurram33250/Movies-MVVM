@@ -15,6 +15,7 @@ import android.view.View
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
+import com.example.hasham.movies_mvvm.data.models.Drama
 import com.example.hasham.movies_mvvm.data.models.DramaResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.data.models.MovieResponse
@@ -22,13 +23,15 @@ import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
 import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
+import com.example.hasham.movies_mvvm.util.HAlert
 
-class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
+class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnMovieItemClickListener<Movie>,
+        RecyclerBindingAdapter.OnDramaItemClickListener<Drama> {
 
     private lateinit var viewModel: MovieViewModel
     private val binding: ActivityMovieBinding by ActivityBindingProvider(R.layout.activity_movie)
     private val movieAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
-    private val dramaAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie_horizontal, BR.movie)
+    private val dramaAdapter: RecyclerBindingAdapter<Drama> = RecyclerBindingAdapter(R.layout.list_item_drama_horizontal, BR.drama)
     private lateinit var movieListObserver: Observer<MovieResponse>
     private lateinit var dramaListObserver: Observer<DramaResponse>
     private var currentMoviePage = 1
@@ -45,7 +48,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         val gridLayoutManager = GridLayoutManager(this, resources.getInteger(R.integer.columns))
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-
         val filterSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
 
         filterSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -59,7 +61,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         })
         filterSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        binding.recyclerViewMain.isNestedScrollingEnabled = false;
+        binding.recyclerViewMain.isNestedScrollingEnabled = false
         binding.recyclerViewMain.apply {
 
             layoutManager = gridLayoutManager
@@ -126,31 +128,43 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
 
         dramaListObserver = Observer { resp ->
 
-        //    requestLoading = false
-            dramaAdapter.addItems(resp?.results as ArrayList<Movie>)
+            //    requestLoading = false
+            dramaAdapter.addDramaItems(resp?.results as ArrayList<Drama>)
         }
 
         movieListObserver = Observer { resp ->
 
             requestLoading = false
-            movieAdapter.addItems(resp?.results as ArrayList<Movie>)
+            movieAdapter.addMovieItems(resp?.results as ArrayList<Movie>)
         }
 
-
-
-        movieAdapter.setOnItemClickListener(this)
+        //    movieAdapter.setOnItemClickListener(this)
+        movieAdapter.setOnMovieItemClickListener(this)
+        dramaAdapter.setOnDramaItemClickListener(this)
 
     }
 
-    override fun onItemClick(position: Int, item: Movie) {
+//    override fun onItemClick(position: Int, item: Movie) {
+//
+//        Log.v("SingleMovie", item.toString())
+//
+//        startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+//
+//    }
+
+    override fun onMovieItemClick(position: Int, item: Movie) {
 
         Log.v("SingleMovie", item.toString())
 
         startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-
     }
 
+    override fun onDramaItemClick(position: Int, item: Drama) {
+
+        HAlert.showToast(this, item.toString())
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -160,7 +174,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_favorite -> {
-
 
                 return true
             }
