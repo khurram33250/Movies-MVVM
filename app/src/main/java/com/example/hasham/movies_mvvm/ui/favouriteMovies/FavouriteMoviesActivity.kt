@@ -1,9 +1,9 @@
 package com.example.hasham.movies_mvvm.ui.favouriteMovies
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.View
@@ -14,15 +14,14 @@ import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.databinding.ActivityFavouriteMoviesBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
+import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
 
-class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator {
+class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
 
     private lateinit var viewModel: FavouriteMoviesViewModel
     private val binding: ActivityFavouriteMoviesBinding by ActivityBindingProvider(R.layout.activity_favourite_movies)
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private lateinit var movieListObserver: Observer<List<Movie>>
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,26 +47,27 @@ class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator {
             Log.e("data", resp.toString())
 
         }
+
+        mAdapter.setOnItemClickListener(this)
     }
-        override fun onStart() {
-            super.onStart()
-            viewModel.getFavouriteMovies().observe(this, movieListObserver)
 
-        }
+    override fun onItemClick(position: Int, item: Movie) {
 
-        override fun onDestroy() {
+        val intent = Intent(this, MovieDetailActivity::class.java)
+        intent.putExtra("MovieObject", item)
+        startActivity(intent)
 
-            viewModel.getFavouriteMovies().removeObserver(movieListObserver)
-            super.onDestroy()
-        }}
+    }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getFavouriteMovies().observe(this, movieListObserver)
 
+    }
 
-//    liveData.observe(this, object : List<Movie> {
-//        override fun onChanged(t: List<Movie>?) {
-//            if (t != null)
-//                mAdapter.addItems(t as AbstractList<Movie>)
-//        }
-//
-//
-//    })}}
+    override fun onDestroy() {
+
+        viewModel.getFavouriteMovies().removeObserver(movieListObserver)
+        super.onDestroy()
+    }
+}

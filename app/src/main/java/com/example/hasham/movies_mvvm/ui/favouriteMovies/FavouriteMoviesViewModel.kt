@@ -25,5 +25,4 @@ class FavouriteMoviesViewModel(application: Application, private val navigator: 
         }
     }
 
-
 }

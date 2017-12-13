@@ -1,31 +1,23 @@
 package com.example.hasham.movies_mvvm.ui.moviesDetail
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
-import com.example.hasham.movies_mvvm.data.models.ApiResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieDetailBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
-import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
 
     private lateinit var viewModel: MovieDetailViewModel
     private val binding: ActivityMovieDetailBinding by ActivityBindingProvider(R.layout.activity_movie_detail)
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
-    private lateinit var movieListObserver: Observer<ApiResponse>
     private lateinit var movie: Movie
-    var Selected: Int = R.drawable.ic_favorite_selected
-    var UnSelected: Int = R.drawable.ic_favorite_unselected
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,26 +45,14 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
             adapter = mAdapter
         }
 
-
         val extras = intent.extras
+
         try {
-            movie = extras.getParcelable<Movie>("MovieObject")
-            Log.v("movieData", movie.toString())
+            movie = extras.getParcelable("MovieObject")
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        var isSelected : Boolean = extras.getBoolean("isSelected")
-        if (isSelected) {
-          binding.floatingButton.setImageResource(Selected)
-
-        } else {
-            binding.floatingButton.setImageResource(UnSelected)
-
-        }
-
-
-
 
         if (true) {
             binding.setVariable(BR.detail, movie)
@@ -90,21 +70,20 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
         }*/
 
         binding.floatingButton.setOnClickListener {
-            Log.v("clicked", "floating button")
 
-            var click: Boolean = true
-            if (click) {
-                viewModel.addToFavourites(movie)
-                floating_button.setImageResource(Selected);
+            if (viewModel.isMovieFavorite(movie.title)) {
 
-                click = false;
-            } else {
                 viewModel.deleteItem(movie)
 
-                floating_button.setImageResource(UnSelected);
-                click = true;
+            } else {
+
+                viewModel.addToFavourites(movie)
             }
+
+            viewModel.setIsMovieFavIcon(movie.title,binding.floatingButton)
         }
+
+//        viewModel.setIsMovieFavIcon(movie.title,binding.floatingButton)
     }
 
 

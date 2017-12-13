@@ -19,6 +19,9 @@ interface MovieDao {
     @Query("SELECT * FROM Movie WHERE id = :Id")
     fun getMovieById(Id: String): Movie?
 
+    @Query("SELECT * FROM Movie WHERE title = :title")
+    fun getMovieByTitle(title: String): Movie?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(movie: Movie)
 
@@ -26,5 +29,5 @@ interface MovieDao {
     fun updateMovie(movie: Movie): Int
 
     @Query("DELETE FROM Movie WHERE title = :Title ")
-    fun deleteMovie(Title: String)
+    fun deleteMovieByTitle(Title: String)
 }

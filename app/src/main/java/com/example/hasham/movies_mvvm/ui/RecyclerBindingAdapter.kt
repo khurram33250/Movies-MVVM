@@ -52,7 +52,6 @@ class RecyclerBindingAdapter<T>(private val holderLayout: Int, private val varia
 
     fun addItems(list: AbstractList<T>) {
         items.addAll(list)
-        Log.e("d", items.toString())
 
         notifyDataSetChanged()
     }

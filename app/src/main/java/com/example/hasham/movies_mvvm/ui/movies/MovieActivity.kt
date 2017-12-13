@@ -102,13 +102,9 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
 
     override fun onItemClick(position: Int, item: Movie) {
 
-
-
         val intent = Intent(this, MovieDetailActivity::class.java)
         intent.putExtra("MovieObject", item)
-        intent.putExtra("isSelected", false)
         startActivity(intent)
-
 
     }
 

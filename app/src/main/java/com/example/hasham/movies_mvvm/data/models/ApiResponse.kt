@@ -51,7 +51,7 @@ data class Movie(@SerializedName("adult")
                  @SerializedName("tagline")
                  val tagline: String? = null,
                  @SerializedName("title")
-                 val title: String? = null,
+                 val title: String,
                  @SerializedName("video")
                  val video: Boolean? = null,
                  @SerializedName("vote_average")
