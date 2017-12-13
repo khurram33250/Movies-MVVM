@@ -1,7 +1,6 @@
 package com.example.hasham.movies_mvvm.data.models
 
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
@@ -9,6 +8,10 @@ import com.google.gson.annotations.SerializedName
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
+
+val input = SimpleDateFormat("yyyy-MM-dd", Locale.UK)
+val output = SimpleDateFormat("dd MMM yyyy", Locale.UK)
 
 
 data class MovieResponse(@SerializedName("page")
@@ -127,17 +130,14 @@ data class Movie(@PrimaryKey(autoGenerate = true)
             return "OVERVIEW:\n\n" + overview
         }
 
-    @Ignore
-    var _releaseDate: String = ""
+    val _releaseDate: String
         get(): String {
 
-            val input = SimpleDateFormat("yyyy-MM-dd", Locale.UK)
-            val output = SimpleDateFormat("dd MMM yyyy", Locale.UK)
             try {
-                val movieData = input.parse(releaseDate)
-                _releaseDate = output.format(movieData)
+                val movieDate = input.parse(releaseDate)
+                val _newReleaseDate = output.format(movieDate)
 
-                return "RELEASED ON:  " + _releaseDate
+                return "RELEASED ON:  " + _newReleaseDate
             } catch (e: ParseException) {
                 e.printStackTrace()
             }

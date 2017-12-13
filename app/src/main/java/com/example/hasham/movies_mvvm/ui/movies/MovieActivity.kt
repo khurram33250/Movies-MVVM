@@ -15,25 +15,22 @@ import android.view.View
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
-import com.example.hasham.movies_mvvm.data.models.Drama
-import com.example.hasham.movies_mvvm.data.models.DramaResponse
 import com.example.hasham.movies_mvvm.data.models.Movie
 import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
 import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
-import com.example.hasham.movies_mvvm.util.HAlert
 
-class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnMovieItemClickListener<Movie>,
-        RecyclerBindingAdapter.OnDramaItemClickListener<Drama> {
+class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
 
     private lateinit var viewModel: MovieViewModel
     private val binding: ActivityMovieBinding by ActivityBindingProvider(R.layout.activity_movie)
     private val movieAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
-    private val dramaAdapter: RecyclerBindingAdapter<Drama> = RecyclerBindingAdapter(R.layout.list_item_drama_horizontal, BR.drama)
+    private val dramaAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie_horizontal, BR.movie)
+    private var mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private lateinit var movieListObserver: Observer<MovieResponse>
-    private lateinit var dramaListObserver: Observer<DramaResponse>
+    private lateinit var dramaListObserver: Observer<MovieResponse>
     private var currentMoviePage = 1
     private var currentDramaPage = 1
     private var pastVisibleItems: Int = 0
@@ -82,28 +79,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
             adapter = dramaAdapter
         }
 
-//        binding.recyclerViewDrama.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-//                if (dy > 0)
-//                //check for scroll down
-//                {
-//                    visibleItemCount = gridLayoutManager.childCount
-//                    totalItemCount = gridLayoutManager.itemCount
-//                    pastVisibleItems = gridLayoutManager.findFirstVisibleItemPosition()
-//
-//                    if (!requestLoading && !viewModel.isLastMoviePage(currentDramaPage)) {
-//                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-//                            requestLoading = true
-//                            val requestPage = currentDramaPage + 1
-//
-//                            viewModel.requestDramas(requestPage)
-//
-//                        }
-//                    }
-//                }
-//            }
-//        })
-
         binding.recyclerViewMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 if (dy > 0)
@@ -129,41 +104,25 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         dramaListObserver = Observer { resp ->
 
             //    requestLoading = false
-            dramaAdapter.addDramaItems(resp?.results as ArrayList<Drama>)
+            dramaAdapter.addItems(resp?.results as ArrayList<Movie>)
         }
 
         movieListObserver = Observer { resp ->
 
             requestLoading = false
-            movieAdapter.addMovieItems(resp?.results as ArrayList<Movie>)
+            movieAdapter.addItems(resp?.results as ArrayList<Movie>)
         }
 
-        //    movieAdapter.setOnItemClickListener(this)
-        movieAdapter.setOnMovieItemClickListener(this)
-        dramaAdapter.setOnDramaItemClickListener(this)
+        movieAdapter.setOnItemClickListener(this)
 
     }
 
-//    override fun onItemClick(position: Int, item: Movie) {
-//
-//        Log.v("SingleMovie", item.toString())
-//
-//        startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
-//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-//
-//    }
-
-    override fun onMovieItemClick(position: Int, item: Movie) {
+    override fun onItemClick(position: Int, item: Movie) {
 
         Log.v("SingleMovie", item.toString())
 
         startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-    override fun onDramaItemClick(position: Int, item: Drama) {
-
-        HAlert.showToast(this, item.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

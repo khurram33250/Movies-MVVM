@@ -69,7 +69,7 @@
                 android:layout_marginRight="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text='@{movie.releaseDate}'
+                android:text='@{movie._releaseDate}'
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="parent"

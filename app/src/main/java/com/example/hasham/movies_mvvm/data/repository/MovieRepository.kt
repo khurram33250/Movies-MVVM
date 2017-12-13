@@ -1,11 +1,11 @@
 package com.example.hasham.movies_mvvm.data.repository
 
 import android.arch.lifecycle.LiveData
-import com.example.hasham.movies_mvvm.data.remote.API
-import retrofit2.Call
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.example.hasham.movies_mvvm.data.models.MovieResponse
+import com.example.hasham.movies_mvvm.data.remote.API
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -27,7 +27,7 @@ class MovieRepository(private var movieService: API.Endpoints) {
 
         val data = MutableLiveData<MovieResponse>()
 
-        movieService.getMovies(page,"popularity.desc").enqueue(object : Callback<MovieResponse> {
+        movieService.getMovies(page, "popularity.desc").enqueue(object : Callback<MovieResponse> {
 
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
 
@@ -57,6 +57,26 @@ class MovieRepository(private var movieService: API.Endpoints) {
 
                 data.value = response.body()
                 Log.e("response", data.value.toString())
+            }
+        })
+
+        return data
+    }
+
+    fun getDramas(page: String): LiveData<MovieResponse> {
+
+        val data = MutableLiveData<MovieResponse>()
+
+        movieService.getDramas(page, "vote_count.gte", "18", "10").enqueue(object : Callback<MovieResponse> {
+
+            override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
+
+
+            }
+
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+
+                data.value = response.body()
             }
         })
 

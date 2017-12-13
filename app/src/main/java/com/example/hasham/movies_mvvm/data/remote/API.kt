@@ -1,6 +1,5 @@
 package com.example.hasham.movies_mvvm.data.remote
 
-import com.example.hasham.movies_mvvm.data.models.DramaResponse
 import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -34,7 +33,7 @@ object API {
         @Headers("Content-Type: application/json")
         @GET(ACTION_DRAMAS)
         fun getDramas(@Query("page") page: String, @Query("sort_by")sortBy:String, @Query("with_genres")withGenres:String,
-                      @Query("vote_count.gte")voteCount:String): Call<DramaResponse>
+                      @Query("vote_count.gte")voteCount:String): Call<MovieResponse>
 
     }
 }
