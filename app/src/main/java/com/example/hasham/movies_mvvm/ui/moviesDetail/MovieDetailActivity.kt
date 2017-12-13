@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.example.hasham.movies_mvvm.BR
 import com.example.hasham.movies_mvvm.R
 import com.example.hasham.movies_mvvm.ViewModelProviderFactory
@@ -24,9 +23,8 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private lateinit var movieListObserver: Observer<ApiResponse>
     private lateinit var movie: Movie
-    var Selected : Int = R.drawable.ic_favorite_selected
-    var UnSelected : Int = R.drawable.ic_favorite_unselected
-
+    var Selected: Int = R.drawable.ic_favorite_selected
+    var UnSelected: Int = R.drawable.ic_favorite_unselected
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,8 +53,26 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
             adapter = mAdapter
         }
 
+
         val extras = intent.extras
-        movie = extras.getParcelable<Movie>("MovieObject")
+        try {
+            movie = extras.getParcelable<Movie>("MovieObject")
+            Log.v("movieData", movie.toString())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        var isSelected : Boolean = extras.getBoolean("isSelected")
+        if (isSelected) {
+          binding.floatingButton.setImageResource(Selected)
+
+        } else {
+            binding.floatingButton.setImageResource(UnSelected)
+
+        }
+
+
+
 
         if (true) {
             binding.setVariable(BR.detail, movie)
@@ -75,18 +91,21 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator {
 
         binding.floatingButton.setOnClickListener {
             Log.v("clicked", "floating button")
-            viewModel.addToFavourites(movie)
 
-            var click : Boolean= true
-                if (click) {
-                    floating_button.setImageResource(Selected);
-                    click = false;
-                } else {
-                    floating_button.setImageResource(UnSelected);
-                    click = true;
-                }
+            var click: Boolean = true
+            if (click) {
+                viewModel.addToFavourites(movie)
+                floating_button.setImageResource(Selected);
+
+                click = false;
+            } else {
+                viewModel.deleteItem(movie)
+
+                floating_button.setImageResource(UnSelected);
+                click = true;
             }
         }
+    }
 
 
     override fun onStart() {

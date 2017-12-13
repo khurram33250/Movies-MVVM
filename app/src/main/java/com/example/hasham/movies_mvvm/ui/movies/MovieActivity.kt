@@ -28,6 +28,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
     private val binding: ActivityMovieBinding by ActivityBindingProvider(R.layout.activity_movie)
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
     private lateinit var movieListObserver: Observer<ApiResponse>
+    private lateinit var moviesList: List<Movie>
     private var currentPage = 1
     private var pastVisibleItems: Int = 0
     private var visibleItemCount: Int = 0
@@ -39,8 +40,11 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         viewModel = ViewModelProviderFactory(MovieViewModel(application, this)).create(MovieViewModel::class.java)
 
         val mLayoutManager = GridLayoutManager(this, resources.getInteger(R.integer.columns))
-
         val filterSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+
+        moviesList = viewModel.getAllFavouriteMovies()
+        Log.e("mv", moviesList.toString())
+
 
         filterSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -98,11 +102,13 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
 
     override fun onItemClick(position: Int, item: Movie) {
 
-        Log.v("SingleMovie", item.toString())
+
 
         val intent = Intent(this, MovieDetailActivity::class.java)
         intent.putExtra("MovieObject", item)
+        intent.putExtra("isSelected", false)
         startActivity(intent)
+
 
     }
 
@@ -115,7 +121,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         when (item.itemId) {
             R.id.action_favorite -> {
 
-                val intent = Intent(this,FavouriteMoviesActivity::class.java)
+                val intent = Intent(this, FavouriteMoviesActivity::class.java)
                 startActivity(intent)
                 return true
             }
@@ -123,6 +129,7 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
 
         }
     }
+
 
     override fun onStart() {
         super.onStart()

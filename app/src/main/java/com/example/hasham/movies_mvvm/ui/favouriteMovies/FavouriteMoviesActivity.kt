@@ -1,5 +1,6 @@
 package com.example.hasham.movies_mvvm.ui.favouriteMovies
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -19,7 +20,6 @@ class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator {
     private lateinit var viewModel: FavouriteMoviesViewModel
     private val binding: ActivityFavouriteMoviesBinding by ActivityBindingProvider(R.layout.activity_favourite_movies)
     private val mAdapter: RecyclerBindingAdapter<Movie> = RecyclerBindingAdapter(R.layout.list_item_movie, BR.movie)
-//    private lateinit var liveData: LiveData<List<Movie>>
     private lateinit var movieListObserver: Observer<List<Movie>>
 
 
@@ -31,8 +31,6 @@ class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator {
         viewModel = ViewModelProviderFactory(FavouriteMoviesViewModel(application, this)).create(FavouriteMoviesViewModel::class.java)
 
         val mLayoutManager = GridLayoutManager(this, resources.getInteger(R.integer.columns))
-//        liveData = viewModel.getFavouriteMovies()
-//        Log.e("mv", liveData.toString())
 
         binding.recyclerViewFav.apply {
 
@@ -65,7 +63,7 @@ class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator {
 
 
 
-//    liveData.observe(this, object : Observer<List<Movie>> {
+//    liveData.observe(this, object : List<Movie> {
 //        override fun onChanged(t: List<Movie>?) {
 //            if (t != null)
 //                mAdapter.addItems(t as AbstractList<Movie>)

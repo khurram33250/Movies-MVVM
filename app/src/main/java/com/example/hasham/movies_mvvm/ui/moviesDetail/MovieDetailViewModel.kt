@@ -50,11 +50,24 @@ class MovieDetailViewModel(application: Application, private val navigator: Movi
         Log.e("name", movie.toString())
     }
 
+    fun deleteItem(movie: Movie) {
+        deleteFavMovie(movie).execute(movie)
+    }
+
     inner class InsertFavMovie : AsyncTask<Movie, String, String>() {
 
         override fun doInBackground(vararg params: Movie): String? {
 
             movieDao.insertMovie(params[0])
+            return null
+        }
+    }
+
+    inner class deleteFavMovie(movie: Movie) : AsyncTask<Movie, String, String>() {
+
+        override fun doInBackground(vararg params: Movie): String? {
+
+            movieDao.deleteMovie(String())
             return null
         }
     }
