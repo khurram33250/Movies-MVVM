@@ -1,5 +1,6 @@
 package com.example.hasham.projectk.data.local.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import com.example.hasham.movies_mvvm.data.models.Movie
 
@@ -10,10 +11,16 @@ import com.example.hasham.movies_mvvm.data.models.Movie
 interface MovieDao {
 
     @Query("SELECT * FROM Movie")
-    fun getMovie(): List<Movie>?
+    fun getMovie(): LiveData<List<Movie>>
 
-    @Query("SELECT * FROM Movie WHERE bid = :Id")
+    @Query("SELECT * FROM Movie")
+    fun getAllMovie(): List<Movie>
+
+    @Query("SELECT * FROM Movie WHERE id = :Id")
     fun getMovieById(Id: String): Movie?
+
+    @Query("SELECT * FROM Movie WHERE title = :title")
+    fun getMovieByTitle(title: String): Movie?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(movie: Movie)
@@ -21,6 +28,6 @@ interface MovieDao {
     @Update
     fun updateMovie(movie: Movie): Int
 
-    @Query("DELETE FROM Movie")
-    fun deleteMovie()
+    @Query("DELETE FROM Movie WHERE title = :Title ")
+    fun deleteMovieByTitle(Title: String)
 }

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Android Projects\movies-mvvm\MoviesMVVM.iml" filepath="D:\Android Projects\movies-mvvm\MoviesMVVM.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/movies-mvvm.iml" filepath="$PROJECT_DIR$/movies-mvvm.iml" />
     </modules>

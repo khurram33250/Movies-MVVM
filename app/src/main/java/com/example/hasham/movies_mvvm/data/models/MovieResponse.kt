@@ -24,9 +24,7 @@ data class MovieResponse(@SerializedName("page")
                          val results: List<Movie>? = null)
 
 @Entity
-data class Movie(@PrimaryKey(autoGenerate = true)
-                 val bid: Long,
-                 @SerializedName("adult")
+data class Movie(@SerializedName("adult")
                  val adult: Boolean? = null,
                  @SerializedName("backdrop_path")
                  val backdropPath: String? = null,
@@ -34,8 +32,9 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  val budget: Int? = null,
                  @SerializedName("homepage")
                  val homepage: String? = null,
+                 @PrimaryKey(autoGenerate = false)
                  @SerializedName("id")
-                 val id: Int? = null,
+                 val id: Long,
                  @SerializedName("imdb_id")
                  val imdbId: String? = null,
                  @SerializedName("original_language")
@@ -45,7 +44,7 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("overview")
                  val overview: String? = null,
                  @SerializedName("popularity")
-                 val popularity: Float? = null,
+                 val popularity: Double? = null,
                  @SerializedName("poster_path")
                  val posterPath: String? = null,
                  @SerializedName("release_date")
@@ -59,27 +58,26 @@ data class Movie(@PrimaryKey(autoGenerate = true)
                  @SerializedName("tagline")
                  val tagline: String? = null,
                  @SerializedName("title")
-                 val title: String? = null,
+                 val title: String,
                  @SerializedName("video")
                  val video: Boolean? = null,
                  @SerializedName("vote_average")
-                 val voteAverage: Float? = null,
+                 val voteAverage: Double? = null,
                  @SerializedName("vote_count")
                  val voteCount: Int? = null,
                  var releaseDateFormated: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+            parcel.readString(),
+            parcel.readValue(Int::class.java.classLoader) as? Int,
+            parcel.readString(),
             parcel.readLong(),
-            parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
-            parcel.readString(),
-            parcel.readValue(Int::class.java.classLoader) as? Int,
-            parcel.readString(),
-            parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readValue(Float::class.java.classLoader) as? Float,
+            parcel.readValue(Float::class.java.classLoader) as? Double,
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -88,12 +86,11 @@ data class Movie(@PrimaryKey(autoGenerate = true)
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
-            parcel.readValue(Float::class.java.classLoader) as? Float,
+            parcel.readValue(Float::class.java.classLoader) as? Double,
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(bid)
         parcel.writeValue(adult)
         parcel.writeString(backdropPath)
         parcel.writeValue(budget)

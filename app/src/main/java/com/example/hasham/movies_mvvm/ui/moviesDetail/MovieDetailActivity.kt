@@ -87,9 +87,23 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailNavigator, RecyclerB
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             else -> return super.onOptionsItemSelected(item)
+        binding.floatingButton.setOnClickListener {
+
+            if (viewModel.isMovieFavorite(movie.title)) {
+
+                viewModel.deleteItem(movie)
+
+            } else {
+
+                viewModel.addToFavourites(movie)
+            }
+
+            viewModel.setIsMovieFavIcon(movie.title,binding.floatingButton)
         }
-        return true
+
+//        viewModel.setIsMovieFavIcon(movie.title,binding.floatingButton)
     }
+
 
     override fun onStart() {
         super.onStart()

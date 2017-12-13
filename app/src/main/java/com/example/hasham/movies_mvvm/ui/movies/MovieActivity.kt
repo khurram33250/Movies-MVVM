@@ -20,6 +20,7 @@ import com.example.hasham.movies_mvvm.data.models.MovieResponse
 import com.example.hasham.movies_mvvm.databinding.ActivityMovieBinding
 import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
+import com.example.hasham.movies_mvvm.ui.favouriteMovies.FavouriteMoviesActivity
 import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
 
 class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
@@ -46,6 +47,10 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         val filterSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+
+        moviesList = viewModel.getAllFavouriteMovies()
+        Log.e("mv", moviesList.toString())
+
 
         filterSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -134,12 +139,15 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
         when (item.itemId) {
             R.id.action_favorite -> {
 
+                val intent = Intent(this, FavouriteMoviesActivity::class.java)
+                startActivity(intent)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
 
         }
     }
+
 
     override fun onStart() {
         super.onStart()
