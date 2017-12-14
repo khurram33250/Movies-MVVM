@@ -91,7 +91,7 @@
                         android:layout_margin="16dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text='@{detail._releaseDate}'
+                        android:text='@{detail._releaseDateWithString}'
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorWhite" />
 

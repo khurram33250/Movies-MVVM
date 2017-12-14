@@ -56,13 +56,12 @@ class FavouriteMoviesActivity : AppCompatActivity(), FavouriteMoviesNavigator, R
         val intent = Intent(this, MovieDetailActivity::class.java)
         intent.putExtra("MovieObject", item)
         startActivity(intent)
-
     }
 
     override fun onStart() {
+
         super.onStart()
         viewModel.getFavouriteMovies().observe(this, movieListObserver)
-
     }
 
     override fun onDestroy() {

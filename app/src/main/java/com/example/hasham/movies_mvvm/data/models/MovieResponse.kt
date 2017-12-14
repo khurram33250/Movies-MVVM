@@ -127,7 +127,7 @@ data class Movie(@SerializedName("adult")
             return "OVERVIEW:\n\n" + overview
         }
 
-    val _releaseDate: String
+    val _releaseDateWithString: String
         get(): String {
 
             try {
@@ -135,6 +135,20 @@ data class Movie(@SerializedName("adult")
                 val _newReleaseDate = output.format(movieDate)
 
                 return "RELEASED ON:  " + _newReleaseDate
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            return releaseDate.toString()
+        }
+
+    val _releaseDate: String
+        get(): String {
+
+            try {
+                val movieDate = input.parse(releaseDate)
+                val _newReleaseDate = output.format(movieDate)
+
+                return _newReleaseDate
             } catch (e: ParseException) {
                 e.printStackTrace()
             }

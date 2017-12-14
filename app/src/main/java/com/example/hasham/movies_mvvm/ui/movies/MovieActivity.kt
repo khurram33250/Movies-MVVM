@@ -3,12 +3,10 @@ package com.example.hasham.movies_mvvm.ui.movies
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,8 +20,9 @@ import com.example.hasham.movies_mvvm.ui.ActivityBindingProvider
 import com.example.hasham.movies_mvvm.ui.RecyclerBindingAdapter
 import com.example.hasham.movies_mvvm.ui.favouriteMovies.FavouriteMoviesActivity
 import com.example.hasham.movies_mvvm.ui.moviesDetail.MovieDetailActivity
+import com.example.hasham.movies_mvvm.util.HAlert
 
-class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapter.OnItemClickListener<Movie> {
+class MovieActivity : AppCompatActivity(), MovieNavigator {
 
     private lateinit var viewModel: MovieViewModel
     private val binding: ActivityMovieBinding by ActivityBindingProvider(R.layout.activity_movie)
@@ -66,31 +65,40 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
             adapter = dramaAdapter
         }
 
-        binding.recyclerViewMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if (dy > 0)
-                //check for scroll down
-                {
-                    visibleItemCount = gridLayoutManager.childCount
-                    totalItemCount = gridLayoutManager.itemCount
-                    pastVisibleItems = gridLayoutManager.findFirstVisibleItemPosition()
+//        binding.recyclerViewMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+//                if (dy > 0)
+//                {
+//                    visibleItemCount = gridLayoutManager.childCount
+//                    totalItemCount = gridLayoutManager.itemCount
+//                    pastVisibleItems = gridLayoutManager.findFirstVisibleItemPosition()
+//
+//                    if (!requestLoading && !viewModel.isLastMoviePage(currentMoviePage)) {
+//                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
+//                            requestLoading = true
+//                            val requestPage = currentMoviePage + 1
+//
+//                            viewModel.requestMovies(requestPage)
+//
+//                        }
+//                    }
+//                }
+//            }
+//        })
 
-                    if (!requestLoading && !viewModel.isLastMoviePage(currentMoviePage)) {
-                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-                            requestLoading = true
-                            val requestPage = currentMoviePage + 1
+        binding.nestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 
-                            viewModel.requestMovies(requestPage)
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
-                        }
-                    }
-                }
+                currentMoviePage++
+                viewModel.requestMovies(currentMoviePage)
+                HAlert.showToast(this, currentMoviePage.toString())
+
             }
         })
 
         dramaListObserver = Observer { resp ->
 
-            //    requestLoading = false
             dramaAdapter.addItems(resp?.results as ArrayList<Movie>)
         }
 
@@ -100,14 +108,28 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
             movieAdapter.addItems(resp?.results as ArrayList<Movie>)
         }
 
-        movieAdapter.setOnItemClickListener(this)
+        viewModel.getMoviesObservable().observe(this, movieListObserver)
+        viewModel.requestMovies(currentMoviePage)
 
-    }
+        viewModel.getDramasObservable().observe(this, dramaListObserver)
+        viewModel.requestDramas(currentDramaPage)
 
-    override fun onItemClick(position: Int, item: Movie) {
+        movieAdapter.setOnItemClickListener(object : RecyclerBindingAdapter.OnItemClickListener<Movie> {
+            override fun onItemClick(position: Int, item: Movie) {
 
-        startActivity(Intent(this, MovieDetailActivity::class.java).putExtra("MovieObject", item))
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                startActivity(Intent(this@MovieActivity, MovieDetailActivity::class.java).putExtra("MovieObject", item))
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+            }
+        })
+
+        dramaAdapter.setOnItemClickListener(object : RecyclerBindingAdapter.OnItemClickListener<Movie> {
+
+            override fun onItemClick(position: Int, item: Movie) {
+
+                startActivity(Intent(this@MovieActivity, MovieDetailActivity::class.java).putExtra("MovieObject", item))
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -126,18 +148,6 @@ class MovieActivity : AppCompatActivity(), MovieNavigator, RecyclerBindingAdapte
             else -> return super.onOptionsItemSelected(item)
 
         }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-
-        viewModel.getMoviesObservable().observe(this, movieListObserver)
-        viewModel.requestMovies(currentMoviePage)
-
-        viewModel.getDramasObservable().observe(this, dramaListObserver)
-        viewModel.requestDramas(currentDramaPage)
-
     }
 
     override fun onDestroy() {
