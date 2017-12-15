@@ -32,7 +32,7 @@ object API {
 
         @Headers("Content-Type: application/json")
         @GET(ACTION_DRAMAS)
-        fun getDramas(@Query("page") page: String, @Query("sort_by")sortBy:String, @Query("with_genres")withGenres:String,
+        fun getDramas(@Query("page") page: String, @Query("primary_release_date.gte") releaseDate: String, @Query("sort_by")sortBy:String, @Query("with_genres")withGenres:String,
                       @Query("vote_count.gte")voteCount:String): Call<MovieResponse>
 
     }

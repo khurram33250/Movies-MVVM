@@ -67,7 +67,7 @@ class MovieRepository(private var movieService: API.Endpoints) {
 
         val data = MutableLiveData<MovieResponse>()
 
-        movieService.getDramas(page, "vote_count.gte", "18", "10").enqueue(object : Callback<MovieResponse> {
+        movieService.getDramas(page, "2015-09-15", "vote_count.gte", "18", "10").enqueue(object : Callback<MovieResponse> {
 
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
 
